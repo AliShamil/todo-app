@@ -1,5 +1,7 @@
-
-function TodoCard({dispatch,setActiveCard, data}) {
+import {useContext} from 'react'
+import Context from '../../ContextWrapper';
+function TodoCard({setActiveCard, data}) {
+  const {dispatch} = useContext(Context);
   return (
     <>
   <div className='w-auto md:mr-8 my-5'>

@@ -1,9 +1,15 @@
-function DeleteCard({dispatch, activeCard}) {
+import {useContext} from 'react'
+import Context from '../../ContextWrapper';
+function DeleteCard({activeCard}) {
+  const {dispatch,getData} = useContext(Context);
   const deleteCard = async (cardId) => {
     try {
       const response = await fetch(`http://localhost:3000/cards/${cardId}`, {
         method: "DELETE",
       });
+      if (response.ok) {
+        getData()
+      }
       const data = await response.json();
       console.log("Deleted Card:", data.message);
     } catch (error) {
@@ -32,9 +38,10 @@ function DeleteCard({dispatch, activeCard}) {
           <button className='border border-zinc-300 py-2 px-5 rounded-[5px] font-bold hover:bg-[#9D9D9D]'
           onClick={()=>{
             dispatch({ type: "reset" });
+
           }}
           >Close</button>
-          <button onClick={(e) => handleSubmit(e)} className='bg-yellow-400 py-2 px-5 rounded-[5px] font-bold mx-3 hover:bg-[#F6AB1A]'>Delete</button>
+          <button onClick={(e) =>{ handleSubmit(e);}} className='bg-yellow-400 py-2 px-5 rounded-[5px] font-bold mx-3 hover:bg-[#F6AB1A]'>Delete</button>
         </div>
       
     </form>

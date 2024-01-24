@@ -1,6 +1,8 @@
-import {useState} from 'react'
-export default function CreateCard({dispatch,mail}) {
+import {useState,useContext} from 'react'
+import Context from '../../ContextWrapper';
+export default function CreateCard() {
   const [formData, setFormData] = useState({});
+  const {mail,dispatch,getData } = useContext(Context);
   const handleChange = (e) =>{
     const {name ,value} = e.target;
     setFormData((prevForm)=> ({
@@ -24,7 +26,9 @@ export default function CreateCard({dispatch,mail}) {
       if (!response.ok) {
         throw new Error('Failed to create card');
       }
-
+      else{
+        getData()
+      }
       const newCard = await response.json();
       console.log(newCard);
       dispatch({ type: 'reset' });
@@ -64,6 +68,7 @@ export default function CreateCard({dispatch,mail}) {
               }}>Close</button>
               <button onClick={(e) =>{
                 createCard(e);
+               
               }} className='bg-yellow-400 py-2 px-5 rounded-[5px] font-bold mx-3 hover:bg-[#F6AB1A]'>Create</button>
             </div>
           </div>

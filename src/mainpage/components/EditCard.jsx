@@ -1,6 +1,7 @@
-import { useState } from 'react'
-
-function EditCard({ dispatch,activeCard }) {
+import { useState,useContext } from 'react'
+import Context from '../../ContextWrapper';
+function EditCard({ activeCard }) {
+  const {dispatch, getData } = useContext(Context);
   const [formData, setFormData] = useState({
     title: activeCard.title,
     description: activeCard.description,
@@ -14,6 +15,9 @@ const updateCard = async (cardId, updatedData) => {
       },
       body: JSON.stringify(updatedData),
     });
+    if (response.ok) {
+      getData()
+    }
     const data = await response.json();
     console.log("Updated Card:", data);
   } catch (error) {
@@ -55,7 +59,7 @@ const handleChange = (e) => {
               dispatch({ type: "reset" });
             }}>Close</button>
 
-          <button onClick={(e) => handleSave(e)} className='bg-yellow-400 py-2 px-5 rounded-[5px] font-bold mx-3 hover:bg-[#F6AB1A]'>Save</button>
+          <button onClick={(e) => {handleSave(e);}} className='bg-yellow-400 py-2 px-5 rounded-[5px] font-bold mx-3 hover:bg-[#F6AB1A]'>Save</button>
         </div>
       </div>
     </form>
